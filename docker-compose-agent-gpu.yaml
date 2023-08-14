@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  agent:
+    image: prefecthq/prefect:2.10.17-python3.11
+    restart: always
+    entrypoint: ["/opt/prefect/entrypoint.sh", "prefect", "worker", "start", "--pool", "local-process", "--work-queue", "onprem"]
+    environment:
+      - PREFECT_API_URL=http://server_ip/api
+    profiles: ["agent"]
+    volumes:
+      - D:\data:/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            capabilities: [gpu]
+volumes:
+  agent:
